@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee</title>
+    <style>
+      #div1 {
+        float: left;
+        width: 100%;
+        height: 40px;
+        background-color: red;
+        font-size: 20px;
+        border: 2px solid black;
+      }
+
+      #div2 {
+        float: left;
+        width: 29.38%;
+        height: 15cm;
+        background-color: rgb(218, 196, 196);
+        border-color: green;
+        text-align: center;
+        border: 2px solid black;
+        font-size: 20px;
+      }
+
+      #div3 {
+        float: right;
+        width: 70%;
+        height: 15cm;
+        background-color: rgb(233, 236, 234);
+        border: 2px solid black;
+      }
+
+      #addbtn {
+        margin: 5px;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+        margin-left: 8cm;
+        margin-top: 10px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input {
+        padding: 5px;
+        width: 200px;
+      }
+
+      button {
+        margin-top: 10px;
+        padding: 10px 8px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      #submitbtn {
+        margin-left: 8cm;
+        margin-top: 10px;
+      }
+
+      .employee-buttons-container {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 10px;
+        margin-left: 80px;
+        gap: 2px;
+        padding: 2cm;
+      }
+
+      .employee-button {
+        margin: 10px;
+        padding: 8px;
+        background-color: #3498db;
+        color: white;
+        border: 1px solid black;
+        cursor: pointer;
+      }
+
+      .delete-button {
+        margin-bottom: 10px;
+        padding: 8px;
+        background-color: #e74c3c;
+        color: white;
+        border: 1px solid black;
+        cursor: pointer;
+      }
+      .deleteAll-button {
+        margin-bottom: 10px;
+        padding: 8px;
+        background-color: #e74c3c;
+        color: white;
+        border: 1px solid black;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      const Employees = {};
+
+      const departments = {
+        1: {
+          id: 1,
+          name: "IT",
+        },
+        2: {
+          id: 2,
+          name: "HR",
+        },
+        3: {
+          id: 3,
+          name: "Engineering",
+        },
+      };
+
+      // const tempobj = {
+      //   Eid: "",
+      //   Ename: "",
+      //   Esalary: 0,
+      //   EDesignation: "",
+      //   EDeptid: "",
+      // };
+
+      function renderUi() {
+        document.getElementById("root").innerHTML = "";
+
+        let id = 1;
+
+        function addEmployee(name, salary, Designation, Deptid) {
+          const Emp = {
+            Eid: id,
+            Ename: name,
+            Esalary: salary,
+            EDesignation: Designation,
+            EDeptid: departments[Deptid],
+          };
+          let msg;
+          if (Employees[id] === undefined) {
+            msg = "Employee added successfully";
+            Employees[id] = Emp;
+            id++;
+          }
+
+          document.getElementById("div3").textContent = msg;
+        }
+
+        function deleteEmployee(id) {
+          if (Employees[id]) {
+            delete Employees[id];
+            msg = "Employee id deleted";
+          } else {
+            msg = "Employee id not found";
+          }
+
+          document.getElementById("div3").textContent = msg;
+        }
+
+        function display1(id) {
+          const div3 = document.getElementById("div3");
+          div3.innerHTML = "";
+
+          for (const key in Employees[id]) {
+            const iddiv = document.createElement("div");
+
+            if (key === "EDeptid") {
+              iddiv.textContent = Employees[id][key]["name"];
+            } else {
+              iddiv.textContent = Employees[id][key];
+            }
+
+            div3.appendChild(iddiv);
+          }
+        }
+
+        const root = document.getElementById("root");
+
+        const div1 = document.createElement("div");
+        div1.id = "div1";
+        div1.textContent = "AYS Software Solution";
+        root.appendChild(div1);
+
+        const div2 = document.createElement("div");
+        div2.id = "div2";
+        div2.textContent = "Employees";
+
+        const div3 = document.createElement("div");
+        div3.id = "div3";
+
+        const hdiv = document.createElement("div");
+        hdiv.id = "hdiv";
+        hdiv.appendChild(div2);
+        hdiv.appendChild(div3);
+        root.appendChild(hdiv);
+
+        //Create Add Employee button
+        const addbtn = document.createElement("button");
+        addbtn.id = "addbtn";
+        addbtn.textContent = "Add";
+
+        addbtn.addEventListener("click", function () {
+          document.getElementById("div3").innerHTML = "";
+
+          let form = document.createElement("form");
+          form.id = "employeeForm";
+
+          // Create form groups
+          createFormGroup("Employee Name", "employeeName", "text", form);
+          createFormGroup("Employee Salary", "employeeSalary", "number", form);
+          createFormGroup("Designation", "designation", "text", form);
+          createFormGroup("Department ID", "departmentId", "text", form);
+
+          const submitButton = document.createElement("button");
+          submitButton.textContent = "Submit";
+          submitButton.id = "submitbtn";
+          submitButton.type = "button";
+
+          submitButton.addEventListener("click", function () {
+            const empid = id;
+            const employeeName = document.getElementById("employeeName").value;
+            const empsalary = document.getElementById("employeeSalary").value;
+            const empdes = document.getElementById("designation").value;
+            const deptid = document.getElementById("departmentId").value;
+
+            // inputField not empty and name cannot be duplicate
+            let status = true;
+            if (employeeName.trim() !== "") {
+              for (let employeeId in Employees) {
+                if (Employees[employeeId].Ename === employeeName) {
+                  status = false;
+                  break;
+                }
+              }
+              if (status === true) {
+                createEmployeeButton(employeeName, empid);
+                addEmployee(employeeName, empsalary, empdes, deptid);
+                if (Object.keys(Employees) <= 1) {
+                  let deleteAllButton = document.createElement("button");
+                  deleteAllButton.setAttribute("class", "deleteAll-button");
+                  deleteAllButton.textContent = "DeleteAll";
+
+                  deleteAllButton.addEventListener("click", function () {
+                    renderUi();
+                    for (let keys in Employees) {
+                      delete Employees[keys];
+                    }
+                    document.getElementById("div3").textContent =
+                      "All Employees are deleted";
+                  });
+                  document.getElementById("div2").appendChild(deleteAllButton);
+                }
+              } else {
+                alert("Employee name already present");
+              }
+            } else {
+              alert("Employee name cannot be empty!");
+            }
+          });
+
+          let resetButton = document.createElement("button");
+          resetButton.textContent = "Reset";
+          resetButton.id = "resetbtn";
+          resetButton.type = "button";
+
+          resetButton.addEventListener("click", function () {
+            document.getElementById("employeeName").value = "";
+            document.getElementById("employeeSalary").value = "";
+            document.getElementById("designation").value = "";
+            document.getElementById("departmentId").value = "";
+          });
+
+          form.appendChild(submitButton);
+          form.appendChild(resetButton);
+          document.getElementById("div3").appendChild(form);
+        });
+        div2.appendChild(addbtn);
+
+        function createFormGroup(labelText, inputId, inputType, form) {
+          let groupDiv = document.createElement("div");
+          groupDiv.className = "form-group";
+
+          let label = document.createElement("label");
+          label.htmlFor = inputId;
+          label.textContent = labelText;
+
+          let input = document.createElement("input");
+          input.type = inputType;
+          input.id = inputId;
+
+          groupDiv.appendChild(label);
+          groupDiv.appendChild(input);
+          form.appendChild(groupDiv);
+        }
+
+        let employeeButtonsContainer = document.createElement("div");
+        employeeButtonsContainer.setAttribute(
+          "class",
+          "employee-buttons-container"
+        );
+        div2.appendChild(employeeButtonsContainer);
+
+        function createEmployeeButton(employeeName, empid) {
+          let employeeButton = document.createElement("button");
+          employeeButton.setAttribute("class", "employee-button");
+          employeeButton.textContent = employeeName;
+          employeeButton.addEventListener("click", function () {
+            display1(empid);
+          });
+
+          let deleteButton = document.createElement("button");
+          deleteButton.setAttribute("class", "delete-button");
+          deleteButton.textContent = "Delete";
+
+          deleteButton.addEventListener("click", function () {
+            employeeButtonsContainer.removeChild(employeeButton);
+            employeeButtonsContainer.removeChild(deleteButton);
+            deleteEmployee(empid);
+            if (Object.keys(Employees) <= 0) {
+              renderUi();
+              document.getElementById("div3").textContent =
+                "All employees are deleted";
+            }
+          });
+
+          employeeButtonsContainer.appendChild(employeeButton);
+          employeeButtonsContainer.appendChild(deleteButton);
+        }
+      }
+
+      renderUi();
+    </script>
+  </body>
+</html>

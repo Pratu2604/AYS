@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>text-colour input</title>
+    <style>
+      .color-box {
+        width: 50px;
+        height: 50px;
+        margin: 5px;
+        display: "inline-block";
+        cursor: pointer;
+      }
+
+      #text-input {
+        margin: 5px;
+      }
+
+      #submit-btn,
+      #reset-btn {
+        margin: 5px;
+      }
+
+      .My-box {
+        display: flex;
+      }
+
+      #final {
+        display: flex;
+        align-items: center;
+        background-color: rgb(250, 248, 249);
+        padding: 20%;
+        border-style: double;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script>
+      const dataState = {
+        selectColour: "",
+        inputText: "",
+      };
+
+      function renderUI() {
+        //clean the root data
+        document.getElementById("root").innerHTML = "";
+
+        // create color boxes
+        const root = document.getElementById("root");
+
+        const colourlabel = document.createElement("div");
+        let name1 = document.createElement("label");
+        name1.textContent = "Select the colour:";
+        colourlabel.appendChild(name1);
+        root.appendChild(colourlabel);
+
+        const box1 = document.createElement("button");
+        box1.className = "color-box";
+        box1.style.backgroundColor = "yellow";
+
+        const box2 = document.createElement("button");
+        box2.className = "color-box";
+        box2.style.backgroundColor = "red";
+
+        const box3 = document.createElement("button");
+        box3.className = "color-box";
+        box3.style.backgroundColor = "green";
+
+        const box = document.createElement("div");
+        box.className = "My-box";
+        box.appendChild(box1);
+        box.appendChild(box2);
+        box.appendChild(box3);
+        root.appendChild(box);
+
+        const Textlabel = document.createElement("div");
+        let name = document.createElement("label");
+        name.textContent = "Enter the Text:";
+        Textlabel.appendChild(name);
+        root.appendChild(Textlabel);
+
+        // create input field
+        const inputField = document.createElement("input");
+        inputField.id = "text-input";
+        inputField.type = "text";
+        root.appendChild(inputField);
+
+        inputField.addEventListener("input", function () {
+          updateText(inputField.value);
+          // console.log(dataState)
+        });
+
+        // create submit button
+        const submitBtn = document.createElement("button");
+        submitBtn.id = "submit-btn";
+        submitBtn.textContent = "Submit";
+        root.appendChild(submitBtn);
+
+        // create reset button
+        const resetBtn = document.createElement("button");
+        resetBtn.id = "reset-btn";
+        resetBtn.textContent = "Reset";
+        root.appendChild(resetBtn);
+
+        // add event for click the button
+        box.addEventListener("click", function (event) {
+          if (event.target.tagName === "BUTTON") {
+            updateColor(event.target.style.backgroundColor);
+            const colorButtons = document.querySelectorAll(".color-box");
+            for (let i = 0; i < colorButtons.length; i++) {
+              if (colorButtons[i] === event.target) {
+                colorButtons[i].style.border = "5px solid black";
+              } else {
+                colorButtons[i].style.border = "1px solid black";
+              }
+            }
+          }
+        });
+
+        // create result label
+        const Resultlabel = document.createElement("div");
+        let name4 = document.createElement("label");
+        name4.textContent = "Entered value:";
+        Resultlabel.appendChild(name4);
+        root.appendChild(Resultlabel);
+
+        const Result = document.createElement("div");
+        Result.id = "resulttt";
+
+        // add event on submit button
+        submitBtn.addEventListener("click", function () {
+          // dataState.inputText = inputField.value;
+          const result = document.querySelector("#resulttt");
+          result.textContent = dataState.inputText;
+          result.style.color = dataState.selectColour;
+        });
+
+        // add event on reset button
+        resetBtn.addEventListener("click", function () {
+          dataState.selectColour = "";
+          dataState.inputText = "";
+          renderUI();
+        });
+
+        // created the final div
+        const final = document.createElement("div");
+        final.id = "final";
+        final.appendChild(colourlabel);
+        final.appendChild(box);
+        final.appendChild(Textlabel);
+        final.appendChild(inputField);
+        final.appendChild(submitBtn);
+        final.appendChild(resetBtn);
+        final.appendChild(Resultlabel);
+        final.appendChild(Result);
+        root.appendChild(final);
+      }
+
+      function updateText(text) {
+        dataState.inputText = text;
+      }
+
+      function updateColor(color) {
+        dataState.selectColour = color;
+      }
+
+      renderUI();
+    </script>
+  </body>
+</html>
