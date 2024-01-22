@@ -141,7 +141,7 @@
         Ename: "",
         Esalary: "",
         Edes: "",
-        deptid: "",
+        Edepartment: "",
       };
       function renderUi() {
         document.getElementById("root").innerHTML = "";
@@ -168,7 +168,7 @@
             if (key === "EDeptid") {
               iddiv.textContent = Employees[id][key]["name"];
             } else {
-              iddiv.textContent = Employees[id][key];
+              iddiv.textContent = `${key}: `+Employees[id][key];
             }
             div3.appendChild(iddiv);
           }
@@ -345,7 +345,7 @@
             employeeButtonsContainer.removeChild(deleteButton);
             deleteEmployee(empid);
             document.getElementById("div3").textContent = "Employee id deleted";
-            if (Object.keys(Employees).length <= 0) {
+            if (Object.keys(Employees).length == 0) {
               renderUi();
               document.getElementById("div3").textContent =
                 "All employees are deleted";
@@ -370,7 +370,7 @@
       }
 
       function updatedept(number) {
-        tempobj.deptid = number;
+        tempobj.Edepartment = number;
       }
 
       renderUi();
