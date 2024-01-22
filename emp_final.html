@@ -9,7 +9,7 @@
         float: left;
         width: 100%;
         height: 40px;
-        background-color: red;
+        background-color: rgb(219, 172, 207);
         font-size: 20px;
         border: 2px solid black;
       }
@@ -109,9 +109,13 @@
         cursor: pointer;
         font-size: 16px;
       }
-      /* .inputField {
-        width: 15vw;
-      } */
+      .inputField {
+        width: 25vw;
+      } 
+      #formdiv{
+        align-items: center;
+        padding: 15ch;
+      }
     </style>
   </head>
   <body>
@@ -278,8 +282,7 @@
                   for (let keys in Employees) {
                     delete Employees[keys];
                   }
-                  document.getElementById("div3").textContent =
-                    "All Employees are deleted";
+                  document.getElementById("div3").textContent ="All Employees are deleted";
                 });
                 document.getElementById("div2").appendChild(deleteAllButton);
               }
@@ -299,16 +302,19 @@
             document.getElementById("departmentId").value = "";
           });
 
-          document.getElementById("div3").appendChild(employeeNameInputlabel);
-          document.getElementById("div3").appendChild(employeeNameInput);
-          document.getElementById("div3").appendChild(employeeSalaryInputlabel);
-          document.getElementById("div3").appendChild(employeeSalaryInput);
-          document.getElementById("div3").appendChild(employeedesInputlabel);
-          document.getElementById("div3").appendChild(designationInput);
-          document.getElementById("div3").appendChild(employeedeptInputlabel);
-          document.getElementById("div3").appendChild(departmentIdInput);
-          document.getElementById("div3").appendChild(submitButton);
-          document.getElementById("div3").appendChild(resetButton);
+          const formdiv=document.createElement('div');
+          formdiv.id="formdiv"
+          formdiv.appendChild(employeeNameInputlabel);
+          formdiv.appendChild(employeeNameInput);
+          formdiv.appendChild(employeeSalaryInputlabel);
+          formdiv.appendChild(employeeSalaryInput);
+          formdiv.appendChild(employeedesInputlabel);
+          formdiv.appendChild(designationInput);
+          formdiv.appendChild(employeedeptInputlabel);
+          formdiv.appendChild(departmentIdInput);
+          formdiv.appendChild(submitButton);
+          formdiv.appendChild(resetButton);
+          document.getElementById("div3").appendChild(formdiv);
         });
 
         div2.appendChild(addbtn);
