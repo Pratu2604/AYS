@@ -333,13 +333,11 @@
 
         addbtn.addEventListener("click", function () {
           document.getElementById("div3").innerHTML = "";
-          tempobj = {
-            Eid: "",
-            Ename: "",
-            Esalary: "",
-            Edes: "",
-            Edepartment: "",
-          };
+          tempobj.Eid="";
+          tempobj.Ename="";
+          tempobj.Esalary="";
+          tempobj.Edes="";
+          tempobj.Edepartment="";
 
           const head = document.createElement("div");
           head.id = "head1";
@@ -432,8 +430,7 @@
               }
             } else {
               alert("Employee name cannot be empty!");
-              delete Employees[empid];
-              console.log(Employees);
+              deleteEmployee(empid);
             }
           });
 
