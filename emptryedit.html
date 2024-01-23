@@ -76,14 +76,14 @@
         display: flex;
         flex-wrap: wrap;
         margin-top: 10px;
-        margin-left: 80px;
-        gap: 2px;
-        padding: 2cm;
+        margin-left: 50px;
+        gap: 1px;
+        padding: 50px;
       }
 
       .employee-button {
         margin: 10px;
-        padding: 8px;
+        padding: 5px;
         background-color: #3498db;
         color: white;
         border: 1px solid black;
@@ -181,6 +181,7 @@
         function display1(id) {
           for (const key in Employees[id]) {
             const iddiv = document.createElement("div");
+            iddiv.id = "iddiv";
 
             if (key === "EDeptid") {
               iddiv.textContent = Employees[id][key]["name"];
@@ -214,7 +215,6 @@
 
             employeeNameInput.addEventListener("input", function () {
               updateName(employeeNameInput.value);
-              console.log(tempobj);
             });
 
             const employeeSalaryInputlabel = document.createElement("div");
@@ -276,8 +276,8 @@
               editEmployee(id, tempobj);
               document.getElementById("div3").textContent =
                 "Employee Details edited!!";
-              document.getElementById("employeeButton").textContent =
-                Employees[id].Ename;
+              createEmployeeButton(id);
+              deleteEmployee(id);
             });
 
             let resetButton = document.createElement("button");
@@ -335,6 +335,13 @@
 
         addbtn.addEventListener("click", function () {
           document.getElementById("div3").innerHTML = "";
+          tempobj = {
+            Eid: "",
+            Ename: "",
+            Esalary: "",
+            Edes: "",
+            Edepartment: "",
+          };
 
           const head = document.createElement("div");
           head.id = "head1";
