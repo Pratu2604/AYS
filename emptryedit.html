@@ -276,8 +276,6 @@
               editEmployee(id, tempobj);
               document.getElementById("div3").textContent =
                 "Employee Details edited!!";
-              createEmployeeButton(id);
-              deleteEmployee(id);
             });
 
             let resetButton = document.createElement("button");
@@ -434,6 +432,8 @@
               }
             } else {
               alert("Employee name cannot be empty!");
+              delete Employees[empid];
+              console.log(Employees);
             }
           });
 
